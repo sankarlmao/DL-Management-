@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Leave - Duty Leave System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      🎓 <span>Duty Leave System</span>
+    </div>
+    <ul class="navbar-nav">
+      <li><a href="/student/dashboard.html">📊 Dashboard</a></li>
+      <li><a href="/student/apply.html">📝 Apply Leave</a></li>
+      <li><a href="/student/view-status.html">📋 My Applications</a></li>
+      <li><span id="userName">Student</span></li>
+      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="card" style="max-width: 600px; margin: 50px auto;">
+    <div class="card-header">📝 Apply for Duty Leave</div>
+
+    <form onsubmit="handleApplyLeave(event)">
+      <div class="form-group">
+        <label for="reason">Reason for Leave <span style="color: red;">*</span></label>
+        <textarea 
+          id="reason" 
+          placeholder="e.g., National Symposium Participation, Conference, Workshop, etc." 
+          required
+          style="min-height: 100px;"
+        ></textarea>
+        <small style="color: #999; display: block; margin-top: 5px;">Provide detailed information about the leave purpose</small>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Leave Date <span style="color: red;">*</span></label>
+        <input 
+          type="date" 
+          id="date" 
+          required
+        >
+        <small style="color: #999; display: block; margin-top: 5px;">Select the date for which you need leave</small>
+      </div>
+
+      <div class="form-group">
+        <label for="hours">Duration (Hours) <span style="color: red;">*</span></label>
+        <input 
+          type="number" 
+          id="hours" 
+          min="1" 
+          max="24" 
+          placeholder="e.g., 4 or 8"
+          required
+        >
+        <small style="color: #999; display: block; margin-top: 5px;">Enter number of hours (1-24)</small>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: 30px;">📋 Submit Application</button>
+      <a href="/student/dashboard.html" class="btn btn-secondary btn-block" style="margin-top: 10px;">← Back to Dashboard</a>
+    </form>
+  </div>
+
+  <!-- Info Card -->
+  <div class="card" style="max-width: 600px; margin: 20px auto;">
+    <div class="card-header">📌 Important Notes</div>
+    <ul style="line-height: 2; color: #555;">
+      <li>✓ You can only apply for future dates</li>
+      <li>✓ Provide a clear reason for the leave</li>
+      <li>✓ All three authorities must approve your application</li>
+      <li>✓ You will receive notifications on approval/rejection</li>
+      <li>✓ Keep the duration realistic (1-24 hours per day)</li>
+    </ul>
+  </div>
+</div>
+
+<script src="/js/script.js"></script>
+<script>
+  checkAuth();
+  loadUserInfo();
+  setMinDate();
+</script>
+
+</body>
+</html>

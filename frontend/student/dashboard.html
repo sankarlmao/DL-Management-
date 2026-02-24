@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard - Duty Leave System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      🎓 <span>Duty Leave System</span>
+    </div>
+    <ul class="navbar-nav">
+      <li><a href="/student/dashboard.html">📊 Dashboard</a></li>
+      <li><a href="/student/apply.html">📝 Apply Leave</a></li>
+      <li><a href="/student/view-status.html">📋 My Applications</a></li>
+      <li><span id="userName">Student</span></li>
+      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="welcome-message">
+    <h2>Welcome, <span id="studentName">Student</span>! 👋</h2>
+    <p>Manage your duty leave applications here</p>
+  </div>
+
+  <div class="grid grid-2">
+    <!-- Student Info Card -->
+    <div class="card">
+      <div class="card-header">📌 Your Information</div>
+      <div id="studentInfo">
+        <p>Loading...</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions Card -->
+    <div class="card">
+      <div class="card-header">⚡ Quick Actions</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="/student/apply.html" class="btn btn-primary btn-block">📝 Apply for Leave</a>
+        <a href="/student/view-status.html" class="btn btn-secondary btn-block">📋 View Applications</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Section -->
+  <div class="card">
+    <div class="card-header">ℹ️ How It Works</div>
+    <ol style="line-height: 2; color: #555;">
+      <li><strong>Apply for Duty Leave:</strong> Fill in the reason, date, and hours</li>
+      <li><strong>Advisor Approval:</strong> Your class advisor reviews your application</li>
+      <li><strong>HOD Approval:</strong> Your department HOD approves the request</li>
+      <li><strong>Host Approval:</strong> The host authority gives final approval</li>
+      <li><strong>Final Status:</strong> All three must approve → Leave Approved ✅</li>
+    </ol>
+  </div>
+
+  <!-- Status Flow Chart -->
+  <div class="card">
+    <div class="card-header">📊 Approval Workflow</div>
+    <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 5px;">
+      <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">1</div>
+          <p style="margin-top: 10px; font-weight: 600;">Advisor</p>
+          <p style="font-size: 12px; color: #666;">Class Advisor</p>
+        </div>
+        <div style="font-size: 24px; color: #ccc;">→</div>
+        <div>
+          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">2</div>
+          <p style="margin-top: 10px; font-weight: 600;">HOD</p>
+          <p style="font-size: 12px; color: #666;">Dept Head</p>
+        </div>
+        <div style="font-size: 24px; color: #ccc;">→</div>
+        <div>
+          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">3</div>
+          <p style="margin-top: 10px; font-weight: 600;">Host</p>
+          <p style="font-size: 12px; color: #666;">Final Authority</p>
+        </div>
+        <div style="font-size: 24px; color: #ccc;">→</div>
+        <div>
+          <div style="background: #4caf50; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">✓</div>
+          <p style="margin-top: 10px; font-weight: 600;">Approved</p>
+          <p style="font-size: 12px; color: #666;">Final Status</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/script.js"></script>
+<script>
+  loadStudentDashboard();
+</script>
+
+</body>
+</html>

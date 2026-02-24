@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Host Dashboard - Duty Leave System</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      👨‍🏫 <span>Duty Leave System</span>
+    </div>
+    <ul class="navbar-nav">
+      <li><span id="staffName">Host</span> | <span id="staffRole">HOST</span></li>
+      <li><span id="userName">Staff</span></li>
+      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="welcome-message">
+    <h2>Welcome, <span id="staffName2">Host Authority</span>! 👋</h2>
+    <p>Review and give final approval for duty leave applications</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">📋 Pending Leave Applications</div>
+    
+    <div id="pendingForms">
+      <div class="spinner"></div>
+      <p style="text-align: center; margin-top: 20px; color: #999;">Loading pending applications...</p>
+    </div>
+  </div>
+
+  <!-- Instructions Card -->
+  <div class="card">
+    <div class="card-header">📌 How to Approve/Reject</div>
+    <ol style="line-height: 2; color: #555;">
+      <li><strong>Review:</strong> Check the leave application and all previous approvals</li>
+      <li><strong>Verify:</strong> Ensure advisor and HOD have already approved</li>
+      <li><strong>Action:</strong> Click "Approve" or "Reject" button for final decision</li>
+      <li><strong>Remarks:</strong> Optionally add comments (required for rejection)</li>
+      <li><strong>Final Status:</strong> Your decision determines the final outcome</li>
+    </ol>
+  </div>
+
+  <!-- Workflow Info -->
+  <div class="card">
+    <div class="card-header">🔄 Approval Workflow</div>
+    <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+      <p><strong>Your Role:</strong> Host Authority (Final Approval)</p>
+      <p style="margin-top: 10px; color: #666;">You are the FINAL level of approval. Your decision is decisive!</p>
+      <div style="margin-top: 20px; padding: 15px; background: white; border-left: 4px solid #667eea; border-radius: 3px;">
+        <p style="margin: 0; color: #333;"><strong>Workflow:</strong></p>
+        <p style="margin: 10px 0; color: #999;">1️⃣ <strong>Advisor</strong> → Already approved</p>
+        <p style="margin: 10px 0; color: #999;">2️⃣ <strong>HOD</strong> → Already approved</p>
+        <p style="margin: 10px 0; color: #666;">3️⃣ <strong>You (Host)</strong> → Final approval/rejection</p>
+        <p style="margin: 10px 0; color: #4caf50; font-weight: 600;">✅ If you approve → Leave APPROVED</p>
+        <p style="margin: 10px 0; color: #f44336; font-weight: 600;">❌ If you reject → Leave REJECTED</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/js/script.js"></script>
+<script>
+  checkAuth();
+  loadStaffDashboard();
+  document.getElementById('staffName2').textContent = document.getElementById('staffName').textContent;
+</script>
+
+</body>
+</html>
