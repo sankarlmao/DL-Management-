@@ -25,7 +25,8 @@ async function apiCall(method, endpoint, data = null) {
       method: method,
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      credentials: 'include' // Important for session cookies
     };
 
     if (data) {
@@ -125,24 +126,23 @@ async function loadUserInfo() {
 // ==================== LOGIN PAGE ====================
 
 // Handle login form submission
-async function handleLogin(e) {
+async function handleLoginJS(e,role) {
+
   e.preventDefault();
 
-  const role = document.querySelector('input[name="role"]:checked');
   
   if (!role) {
     showAlert('Please select a role', 'error');
     return;
   }
 
-  const roleValue = role.value;
+  const roleValue = role.toLowerCase();
   let endpoint = '';
-  let loginData = {};
+  let loginData = {}; 
 
   if (roleValue === 'student') {
-    const rollNumber = e.target.querySelector('#rollNumber')?.value;
-    const password = e.target.querySelector('input[type="password"]')?.value;
-
+    const rollNumber = document.getElementById('rollNumber')?.value;
+    const password = document.getElementById('studentPassword')?.value;
     if (!rollNumber || !password) {
       showAlert('Roll number and password required', 'error');
       return;
@@ -151,8 +151,8 @@ async function handleLogin(e) {
     endpoint = '/api/student/login';
     loginData = { rollNumber, password };
   } else {
-    const email = e.target.querySelector('#email')?.value;
-    const password = e.target.querySelector('input[type="password"]')?.value;
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('staffPassword')?.value;
 
     if (!email || !password) {
       showAlert('Email and password required', 'error');

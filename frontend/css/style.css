@@ -266,17 +266,21 @@ textarea {
 }
 
 .role-option input[type="radio"] {
-  display: none;
+  margin-right: 8px;
+}
+
+.role-option label {
+  cursor: pointer;
+}
+
+.role-option:has(input[type="radio"]:checked) {
+  border-color: #667eea;
+  background: #f0f4ff;
 }
 
 .role-option input[type="radio"]:checked + label {
   color: #667eea;
   font-weight: 600;
-}
-
-.role-option input[type="radio"]:checked ~ .role-option {
-  border-color: #667eea;
-  background: #f0f4ff;
 }
 
 /* ==================== DASHBOARD STYLES ==================== */

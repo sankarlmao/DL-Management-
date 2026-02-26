@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Duty Leave System — Login</title>
+<title>Duty Leave Management System — Login</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
 <style>
+  /* ── Reset ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --red: #C8102E;
-    --red-dark: #a50d25;
-    --red-light: #fdf2f4;
+    --red:        #C8102E;
+    --red-dark:   #a50d25;
+    --red-light:  #fdf2f4;
     --red-border: #f0c0c7;
-    --text: #111111;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
-    --bg: #f5f5f5;
-    --white: #ffffff;
-    --radius: 8px;
+    --text:       #111111;
+    --muted:      #6b7280;
+    --border:     #e5e7eb;
+    --bg:         #f5f5f5;
+    --white:      #ffffff;
+    --radius:     8px;
   }
 
   body {
@@ -32,18 +34,19 @@
     padding: 20px;
   }
 
+  /* ── Wrapper ── */
   .wrapper {
     width: 100%;
     max-width: 420px;
-    animation: fadeIn 0.4s ease both;
+    animation: fadeUp 0.4s ease both;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Brand */
+  /* ── Brand ── */
   .brand {
     text-align: center;
     margin-bottom: 28px;
@@ -56,50 +59,49 @@
     width: 52px;
     height: 52px;
     background: var(--red);
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 14px;
   }
 
   .brand-logo svg {
     width: 26px;
     height: 26px;
-    fill: white;
+    fill: #fff;
   }
 
   .brand h1 {
     font-size: 20px;
     font-weight: 700;
-    color: var(--text);
     letter-spacing: -0.3px;
+    color: var(--text);
   }
 
   .brand p {
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-top: 3px;
-    font-weight: 400;
   }
 
-  /* Card */
+  /* ── Card ── */
   .card {
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 32px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
 
-  /* Section label */
+  /* ── Section label ── */
   .section-label {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-bottom: 10px;
   }
 
-  /* Toggle */
+  /* ── Role Toggle ── */
   .toggle-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -123,6 +125,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
+    pointer-events: none;
   }
 
   .toggle-track.staff { transform: translateX(100%); }
@@ -140,10 +143,10 @@
     font-family: 'Inter', sans-serif;
     font-size: 13.5px;
     font-weight: 500;
-    color: var(--text-muted);
+    color: var(--muted);
     cursor: pointer;
     border-radius: 6px;
-    transition: color 0.2s;
+    transition: color 0.18s;
     user-select: none;
   }
 
@@ -154,7 +157,7 @@
 
   .toggle-btn .icon { font-size: 15px; }
 
-  /* Form */
+  /* ── Form Groups ── */
   .form-group { margin-bottom: 16px; }
 
   .form-label {
@@ -172,10 +175,12 @@
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #9ca3af;
     font-size: 15px;
     pointer-events: none;
     line-height: 1;
+    /* vertically align emoji icons */
+    display: flex;
+    align-items: center;
   }
 
   .form-input {
@@ -183,7 +188,7 @@
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 10px 12px 10px 38px;
+    padding: 10px 12px 10px 40px;
     color: var(--text);
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -191,14 +196,21 @@
     transition: border-color 0.15s, box-shadow 0.15s;
   }
 
-  .form-input::placeholder { color: #c0c7d0; }
+  .form-input::placeholder { color: #c4cbd6; }
 
   .form-input:focus {
     border-color: var(--red);
     box-shadow: 0 0 0 3px rgba(200,16,46,0.08);
   }
 
-  /* Submit */
+  .input-hint {
+    display: block;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  /* ── Submit Button ── */
   .btn-submit {
     width: 100%;
     padding: 11px;
@@ -210,17 +222,23 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    margin-top: 4px;
+    margin-top: 6px;
     letter-spacing: 0.01em;
     transition: background 0.15s, transform 0.1s;
   }
 
-  .btn-submit:hover { background: var(--red-dark); }
+  .btn-submit:hover  { background: var(--red-dark); }
   .btn-submit:active { transform: scale(0.99); }
   .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  /* Form panels */
-  .form-panel { display: none; }
+  /* ── Form Panels (student / staff) ── */
+  /*
+    The original script.js uses IDs "studentForm" and "staffForm"
+    and calls show/hide via toggleLoginForm(). We keep those IDs
+    on the <form> elements so script.js can find & control them.
+    The outer .form-panel wrapper handles the CSS transition.
+  */
+  .form-panel        { display: none; }
   .form-panel.visible {
     display: block;
     animation: panelIn 0.25s ease both;
@@ -231,20 +249,20 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Divider */
+  /* ── Divider ── */
   .divider {
     border: none;
     border-top: 1px solid var(--border);
     margin: 22px 0;
   }
 
-  /* Credentials */
+  /* ── Test Credentials ── */
   .creds-title {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-bottom: 10px;
   }
 
@@ -254,15 +272,12 @@
     font-size: 12.5px;
   }
 
-  .cred-table tr {
-    border-bottom: 1px solid var(--border);
-  }
-
+  .cred-table tr           { border-bottom: 1px solid var(--border); }
   .cred-table tr:last-child { border-bottom: none; }
 
   .cred-table td {
     padding: 7px 4px;
-    color: var(--text-muted);
+    color: var(--muted);
     vertical-align: middle;
   }
 
@@ -284,18 +299,19 @@
     margin-right: 4px;
   }
 
-  /* Footer */
+  /* ── Footer ── */
   .footer {
     text-align: center;
     margin-top: 18px;
     font-size: 11.5px;
-    color: #b0b8c4;
+    color: #b8bfcb;
   }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
+  <!-- Brand -->
   <div class="brand">
     <div class="brand-logo">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -306,11 +322,12 @@
     <p>Multi-Level Approval Workflow</p>
   </div>
 
+  <!-- Login Card -->
   <div class="card">
 
     <p class="section-label">Sign in as</p>
 
-    <!-- Toggle -->
+    <!-- Role Toggle -->
     <div class="toggle-wrap">
       <div class="toggle-track" id="toggleTrack"></div>
       <button class="toggle-btn active" id="btnStudent" onclick="switchRole('student')">
@@ -321,80 +338,165 @@
       </button>
     </div>
 
-    <!-- Student Form -->
+    <!--
+      STUDENT PANEL
+      • Outer .form-panel controls CSS show/hide + animation
+      • Inner <form id="studentForm"> matches what script.js looks for
+      • input id="rollNumber"  ← original backend expects this
+      • input id="password"    ← original backend expects this (student)
+    -->
     <div class="form-panel visible" id="studentPanel">
-      <form onsubmit="handleLogin(event)">
+      <form id="studentForm" onsubmit="handleLoginJS(event,'student')">
+
         <div class="form-group">
-          <label class="form-label">Roll Number</label>
+          <label class="form-label" for="rollNumber">Roll Number</label>
           <div class="input-wrap">
-            <span class="input-icon">🪪</span>
-            <input class="form-input" type="text" id="rollNumber" placeholder="e.g. CS2024001" required>
+            <span class="input-icon"></span>
+            <input
+              class="form-input"
+              type="text"
+              id="rollNumber"
+              name="rollNumber"
+              placeholder="e.g. CS2024001"
+              required
+              autocomplete="username"
+              pattern="[A-Za-z0-9]+"
+              title="Letters and numbers only — no symbols or spaces"
+              oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '')"
+              onpaste="handleRollPaste(event)"
+            >
+          </div>
+          <span class="input-hint">Letters and numbers only — no symbols or spaces</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="studentPassword">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon"></span>
+            <input
+              class="form-input"
+              type="password"
+              id="studentPassword"
+              name="studentPassword"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+            >
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <div class="input-wrap">
-            <span class="input-icon">🔒</span>
-            <input class="form-input" type="password" id="studentPassword" placeholder="Enter your password" required>
-          </div>
-        </div>
+
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
 
-    <!-- Staff Form -->
+    <!--
+      STAFF PANEL
+      • Outer .form-panel controls CSS show/hide + animation
+      • Inner <form id="staffForm"> matches what script.js looks for
+      • input id="email"    ← original backend expects this
+      • input id="password" ← original backend expects this (staff)
+        Note: both forms use id="password". Since only one panel is
+        visible at a time, document.getElementById('password') in
+        script.js will always resolve to the active visible input.
+    -->
     <div class="form-panel" id="staffPanel">
-      <form onsubmit="handleLogin(event)">
+      <form id="staffForm" onsubmit="handleLoginJS(event,'staff')">
+
         <div class="form-group">
-          <label class="form-label">Email Address</label>
+          <label class="form-label" for="email">Email Address</label>
           <div class="input-wrap">
-            <span class="input-icon">✉️</span>
-            <input class="form-input" type="email" id="email" placeholder="e.g. mohan@staff.com" required>
+            <span class="input-icon"></span>
+            <input
+              class="form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="e.g. mohan@staff.com"
+              required
+              autocomplete="email"
+            >
           </div>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Password</label>
+          <label class="form-label" for="staffPassword">Password</label>
           <div class="input-wrap">
-            <span class="input-icon">🔒</span>
-            <input class="form-input" type="password" id="staffPassword" placeholder="Enter your password" required>
+            <span class="input-icon"></span>
+            <input
+              class="form-input"
+              type="password"
+              id="staffPassword"
+              name="staffPassword"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+            >
           </div>
         </div>
+
         <button type="submit" class="btn-submit">Sign In</button>
       </form>
     </div>
 
     <hr class="divider">
 
-    <!-- Credentials -->
+    <!-- Test Credentials -->
     <p class="creds-title">Test Credentials</p>
     <table class="cred-table">
       <tr>
         <td>Student</td>
-        <td><span class="cred-tag">CS2024001</span><span class="cred-tag">password123</span></td>
+        <td>
+          <span class="cred-tag">CS2024001</span>
+          <span class="cred-tag">password123</span>
+        </td>
       </tr>
       <tr>
         <td>Advisor</td>
-        <td><span class="cred-tag">mohan@staff.com</span><span class="cred-tag">password123</span></td>
+        <td>
+          <span class="cred-tag">mohan@staff.com</span>
+          <span class="cred-tag">password123</span>
+        </td>
       </tr>
       <tr>
         <td>HOD</td>
-        <td><span class="cred-tag">rajesh@staff.com</span><span class="cred-tag">password123</span></td>
+        <td>
+          <span class="cred-tag">rajesh@staff.com</span>
+          <span class="cred-tag">password123</span>
+        </td>
       </tr>
       <tr>
         <td>Host</td>
-        <td><span class="cred-tag">host@staff.com</span><span class="cred-tag">password123</span></td>
+        <td>
+          <span class="cred-tag">host@staff.com</span>
+          <span class="cred-tag">password123</span>
+        </td>
       </tr>
     </table>
 
-  </div>
+  </div><!-- /card -->
 
   <div class="footer">© Duty Leave Management System</div>
-</div>
+</div><!-- /wrapper -->
 
-<script src="/js/script.js"></script>
+<!-- Original backend script — must load before our glue code -->
+<script src="./js/script.js"></script>
+
 <script>
+  /* ═══════════════════════════════════════════════════════════════
+     BRIDGE LAYER
+     Keeps the new UI in sync with the functions script.js provides.
+     ═══════════════════════════════════════════════════════════════ */
+
   let currentRole = 'student';
 
+  /**
+   * switchRole(role)
+   * Called by the toggle buttons.
+   * 1. Updates the sliding toggle UI.
+   * 2. Calls toggleLoginForm(role) so script.js handles its own
+   *    show/hide logic (e.g. document.getElementById('studentForm')).
+   * 3. Syncs our .form-panel visibility for the CSS animation.
+   */
   function switchRole(role) {
     if (role === currentRole) return;
     currentRole = role;
@@ -418,20 +520,53 @@
       pStaff.classList.remove('visible');
       pStudent.classList.add('visible');
     }
+
+    // Delegate to script.js toggle if it exists
+    if (typeof toggleLoginForm === 'function') {
+      toggleLoginForm(role);
+    }
   }
 
-  function handleLogin(event) {
-    event.preventDefault();
-    const btn = event.target.querySelector('.btn-submit');
-    const original = btn.textContent;
-    btn.textContent = 'Signing in…';
-    btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = original;
-      btn.disabled = false;
-    }, 2000);
-    if (typeof initLoginPage === 'function') initLoginPage();
+  /**
+   * handleLogin(event)
+   * Intercepts form submit, shows a loading state, then hands off
+   * to script.js handleLogin() if it defines its own version —
+   * otherwise falls through for the native script.js onsubmit flow.
+   *
+   * NOTE: The <form onsubmit="handleLogin(event)"> attribute means
+   * THIS function runs first. We do UI work then call the original
+   * if it exists under a different name, or let script.js take over
+   * if it overrides handleLogin globally (last definition wins in JS).
+   */
+  
+
+  /**
+   * handleRollPaste(e)
+   * Strips all non-alphanumeric characters from pasted roll numbers.
+   */
+  function handleRollPaste(e) {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData).getData('text');
+    const clean  = pasted.replace(/[^A-Za-z0-9]/g, '');
+    const input  = e.target;
+    const start  = input.selectionStart;
+    const end    = input.selectionEnd;
+    input.value  = input.value.slice(0, start) + clean + input.value.slice(end);
+    input.setSelectionRange(start + clean.length, start + clean.length);
   }
+
+  /* ── Initialise ──────────────────────────────────────────────── */
+  // Mirrors the original page's boot sequence exactly:
+  //   initLoginPage()           — script.js setup
+  //   studentRole.checked = true — default radio (now toggle)
+  //   toggleLoginForm('student') — show student form
+
+  if (typeof initLoginPage === 'function') {
+    initLoginPage();
+  }
+
+  // Ensure student view is active on load (matches original default)
+  switchRole('student');
 </script>
 </body>
 </html>
