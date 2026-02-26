@@ -3,8 +3,8 @@ const mysql = require('mysql2');
 // Create connection pool
 const pool = mysql.createPool({
   host: 'localhost',
-  user: 'root',
-  password: '', // Leave empty if you don't have root password
+  user: 'dluser',
+  password: 'password123', // Leave empty if you don't have root password
   database: 'duty_leave_db',
   waitForConnections: true,
   connectionLimit: 10,
