@@ -3,21 +3,26 @@ const session = require('express-session');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: true, // Allow all origins in development
+  credentials: true // Allow credentials (cookies)
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session Configuration
 app.use(session({
-  secret: 'your_secret_key_change_this',
+  secret: process.env.SESSION_SECRET || 'duty_leave_secret_key_2024',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { 
     secure: false, // Set to true if using HTTPS
+    httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 // 24 hours
   }
 }));

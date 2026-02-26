@@ -1,0 +1,14 @@
+nohup: ignoring input
+📦 Connecting to MySQL: localhost as dluser
+
+  ╔════════════════════════════════════════════════════════╗
+  ║   DUTY LEAVE MANAGEMENT SYSTEM - Backend Server       ║
+  ║   Server Running on http://localhost:3000        ║
+  ║   Open: http://localhost:3000                   ║
+  ╚════════════════════════════════════════════════════════╝
+  
+✅ MySQL Database Connected Successfully!
+[staff-login] incoming email: mohan@staff.com
+[staff-login] matched rows: 1
+[staff-login] req.body: { email: 'mohan@staff.com', password: 'password123' }
+[staff-login] user-agent: curl/8.17.0
