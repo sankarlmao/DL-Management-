@@ -140,8 +140,8 @@ async function handleLogin(e) {
   let loginData = {};
 
   if (roleValue === 'student') {
-    const rollNumber = document.getElementById('rollNumber')?.value;
-    const password = document.getElementById('password')?.value;
+    const rollNumber = e.target.querySelector('#rollNumber')?.value;
+    const password = e.target.querySelector('input[type="password"]')?.value;
 
     if (!rollNumber || !password) {
       showAlert('Roll number and password required', 'error');
@@ -151,8 +151,8 @@ async function handleLogin(e) {
     endpoint = '/api/student/login';
     loginData = { rollNumber, password };
   } else {
-    const email = document.getElementById('email')?.value;
-    const password = document.getElementById('password')?.value;
+    const email = e.target.querySelector('#email')?.value;
+    const password = e.target.querySelector('input[type="password"]')?.value;
 
     if (!email || !password) {
       showAlert('Email and password required', 'error');
