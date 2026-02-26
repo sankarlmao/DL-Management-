@@ -13,16 +13,26 @@ const checkStaffLogin = (req, res, next) => {
 // 🔐 STAFF LOGIN
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password required' });
     }
 
+    // Normalize input to avoid issues with casing / surrounding whitespace
+    email = String(email).trim().toLowerCase();
+
+    // Use case-insensitive email match and trimmed comparison
     const [staffMembers] = await db.query(
-      'SELECT id, name, role, email FROM staff WHERE email = ? AND password = ?',
+      'SELECT id, name, role, email FROM staff WHERE LOWER(TRIM(email)) = ? AND password = ?',
       [email, password]
     );
+
+    // Debug logging to help diagnose "Invalid credentials" responses
+    console.log('[staff-login] incoming email:', email);
+    console.log('[staff-login] matched rows:', Array.isArray(staffMembers) ? staffMembers.length : 0);
+    console.log('[staff-login] req.body:', req.body);
+    console.log('[staff-login] user-agent:', req.headers['user-agent']);
 
     if (staffMembers.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
