@@ -4,94 +4,597 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Dashboard - Duty Leave System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --red:        #C8181E;
+      --red-dark:   #9B1217;
+      --red-xlight: #FEF2F2;
+      --red-light:  #FECACA;
+      --red-mid:    #FCA5A5;
+      --white:      #FFFFFF;
+      --off-white:  #FAFAFA;
+      --line:       #F0F0F0;
+      --text-main:  #1A1A1A;
+      --text-sub:   #6B6B6B;
+      --text-muted: #9E9E9E;
+      --shadow-xs:  0 1px 4px rgba(0,0,0,.06);
+      --shadow-sm:  0 2px 12px rgba(0,0,0,.07);
+      --shadow-md:  0 6px 28px rgba(0,0,0,.09);
+      --r-sm:       8px;
+      --r-md:       14px;
+      --r-lg:       20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--off-white);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* ─── TOP BAR ─── */
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red), #FF6B6B);
+    }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .navbar .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(200,24,30,.35);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .brand-text strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-text small {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+
+    .navbar-nav li a {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 0.845rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--r-sm);
+      transition: all .18s;
+      letter-spacing: 0.01em;
+    }
+
+    .navbar-nav li a:hover {
+      color: var(--red);
+      background: var(--red-xlight);
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--line);
+      margin: 0 8px;
+    }
+
+    .navbar-nav #userName {
+      font-size: 0.845rem;
+      font-weight: 600;
+      color: var(--text-main);
+      padding: 0 6px;
+    }
+
+    .logout-btn {
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid var(--red-light);
+      padding: 8px 18px;
+      border-radius: var(--r-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.845rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: 0.02em;
+    }
+
+    .logout-btn:hover {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+      box-shadow: 0 4px 14px rgba(200,24,30,.28);
+    }
+
+    /* ─── MAIN ─── */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      padding: 44px 0 36px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeUp .4s ease both;
+    }
+
+    .page-header-left h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .page-header-left h1 .highlight {
+      color: var(--red);
+    }
+
+    .page-header-left p {
+      margin-top: 8px;
+      font-size: 0.93rem;
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+
+    .page-header-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red-xlight);
+      border: 1px solid var(--red-light);
+      color: var(--red-dark);
+      padding: 10px 18px;
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(1.4); }
+    }
+
+    /* ─── GRID ─── */
+    .grid { display: grid; gap: 24px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+    /* ─── CARD ─── */
+    .card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      transition: box-shadow .22s, transform .22s;
+      animation: fadeUp .4s ease both;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+
+    .card-header-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .card-body { padding: 24px; }
+
+    #studentInfo {
+      color: var(--text-sub);
+      font-size: 0.93rem;
+      line-height: 2;
+    }
+
+    /* ─── ACTION BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 14px 22px;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-block { display: flex; width: 100%; }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(200,24,30,.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,24,30,.38);
+    }
+
+    .btn-secondary {
+      background: var(--off-white);
+      color: var(--text-main);
+      border: 1.5px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      background: var(--white);
+      border-color: var(--red-mid);
+      color: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-icon { font-size: 1rem; }
+
+    .actions-gap { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ─── WORKFLOW CARD ─── */
+    .workflow-card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      animation: fadeUp .5s ease .1s both;
+      transition: box-shadow .22s;
+    }
+
+    .workflow-card:hover { box-shadow: var(--shadow-md); }
+
+    .workflow-inner {
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .wf-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      min-width: 90px;
+    }
+
+    .wf-ring {
+      position: relative;
+      width: 68px;
+      height: 68px;
+    }
+
+    .wf-ring svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .wf-ring-inner {
+      position: absolute;
+      inset: 6px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--red);
+      border: 2px solid var(--red-xlight);
+    }
+
+    .wf-ring-inner.final {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red-dark);
+      font-size: 1rem;
+    }
+
+    .wf-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.01em;
+    }
+
+    .wf-role {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      margin-top: -8px;
+    }
+
+    .wf-connector {
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--red-light), var(--red-mid));
+      position: relative;
+      margin-bottom: 34px;
+    }
+
+    .wf-connector::after {
+      content: '';
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 6px solid var(--red-mid);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      padding-left: 2px;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:nth-child(2) { animation-delay: .07s; }
+
+    /* ─── FOOTER SPACE ─── */
+    .page-footer { height: 60px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      .navbar .container { padding: 0 18px; }
+      .navbar-nav li a   { display: none; }
+      .nav-divider       { display: none; }
+      .container         { padding: 0 18px; }
+      .page-header       { padding: 28px 0 22px; }
+      .workflow-inner    { padding: 22px 18px; }
+      .wf-connector      { max-width: 28px; }
+      .brand-text small  { display: none; }
+    }
+  </style>
 </head>
 <body>
+
+<div class="top-bar"></div>
 
 <!-- Navbar -->
 <nav class="navbar">
   <div class="container">
-    <div class="navbar-brand">
-      🎓 <span>Duty Leave System</span>
-    </div>
+    <a class="navbar-brand" href="/student/dashboard.html">
+      <div class="brand-icon">🎓</div>
+      <div class="brand-text">
+        <strong>Duty Leave System</strong>
+        <small>Student Portal</small>
+      </div>
+    </a>
     <ul class="navbar-nav">
-      <li><a href="/student/dashboard.html">📊 Dashboard</a></li>
-      <li><a href="/student/apply.html">📝 Apply Leave</a></li>
-      <li><a href="/student/view-status.html">📋 My Applications</a></li>
+      <li><a href="/student/dashboard.html">Dashboard</a></li>
+      <li><a href="/student/apply.html">Apply Leave</a></li>
+      <li><a href="/student/view-status.html">My Applications</a></li>
+      <div class="nav-divider"></div>
       <li><span id="userName">Student</span></li>
-      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+      <li><button class="logout-btn" onclick="logout()">Sign Out</button></li>
     </ul>
   </div>
 </nav>
 
 <div class="container">
-  <div class="welcome-message">
-    <h2>Welcome, <span id="studentName">Student</span>! 👋</h2>
-    <p>Manage your duty leave applications here</p>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>Welcome back, <span class="highlight" id="studentName">Student</span></h1>
+      <p>View and manage your duty leave applications below</p>
+    </div>
+    <div class="page-header-badge">
+      <div class="badge-dot"></div>
+      Portal Active
+    </div>
   </div>
 
+  <!-- Info + Actions Row -->
+  <p class="section-label">Overview</p>
   <div class="grid grid-2">
-    <!-- Student Info Card -->
+
+    <!-- Student Info -->
     <div class="card">
-      <div class="card-header">📌 Your Information</div>
-      <div id="studentInfo">
-        <p>Loading...</p>
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        Your Information
+      </div>
+      <div class="card-body">
+        <div id="studentInfo"><p>Loading...</p></div>
       </div>
     </div>
 
-    <!-- Quick Actions Card -->
+    <!-- Quick Actions -->
     <div class="card">
-      <div class="card-header">⚡ Quick Actions</div>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
-        <a href="/student/apply.html" class="btn btn-primary btn-block">📝 Apply for Leave</a>
-        <a href="/student/view-status.html" class="btn btn-secondary btn-block">📋 View Applications</a>
+      <div class="card-header">
+        <div class="card-header-dot"></div>
+        Quick Actions
       </div>
+      <div class="card-body actions-gap">
+        <a href="/student/apply.html" class="btn btn-primary btn-block">
+          <span class="btn-icon">📝</span> Apply for Duty Leave
+        </a>
+        <a href="/student/view-status.html" class="btn btn-secondary btn-block">
+          <span class="btn-icon">📋</span> View My Applications
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Approval Workflow -->
+  <p class="section-label" style="margin-top: 40px;">Approval Workflow</p>
+  <div class="workflow-card">
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Multi-Level Approval Process
+    </div>
+    <div class="workflow-inner">
+
+      <div class="wf-node">
+        <div class="wf-ring">
+          <svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="28" fill="none" stroke="#FECACA" stroke-width="3"/><circle cx="34" cy="34" r="28" fill="none" stroke="#C8181E" stroke-width="3" stroke-dasharray="176" stroke-dashoffset="44" stroke-linecap="round"/></svg>
+          <div class="wf-ring-inner">1</div>
+        </div>
+        <span class="wf-name">Advisor</span>
+        <span class="wf-role">Class Advisor</span>
+      </div>
+
+      <div class="wf-connector"></div>
+
+      <div class="wf-node">
+        <div class="wf-ring">
+          <svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="28" fill="none" stroke="#FECACA" stroke-width="3"/><circle cx="34" cy="34" r="28" fill="none" stroke="#C8181E" stroke-width="3" stroke-dasharray="176" stroke-dashoffset="88" stroke-linecap="round"/></svg>
+          <div class="wf-ring-inner">2</div>
+        </div>
+        <span class="wf-name">HOD</span>
+        <span class="wf-role">Dept. Head</span>
+      </div>
+
+      <div class="wf-connector"></div>
+
+      <div class="wf-node">
+        <div class="wf-ring">
+          <svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="28" fill="none" stroke="#FECACA" stroke-width="3"/><circle cx="34" cy="34" r="28" fill="none" stroke="#C8181E" stroke-width="3" stroke-dasharray="176" stroke-dashoffset="132" stroke-linecap="round"/></svg>
+          <div class="wf-ring-inner">3</div>
+        </div>
+        <span class="wf-name">Host</span>
+        <span class="wf-role">Final Authority</span>
+      </div>
+
+      <div class="wf-connector"></div>
+
+      <div class="wf-node">
+        <div class="wf-ring">
+          <svg viewBox="0 0 68 68"><circle cx="34" cy="34" r="28" fill="none" stroke="#C8181E" stroke-width="3"/></svg>
+          <div class="wf-ring-inner final">✓</div>
+        </div>
+        <span class="wf-name">Approved</span>
+        <span class="wf-role">Completed</span>
+      </div>
+
     </div>
   </div>
 
-  <!-- Info Section -->
-  <div class="card">
-    <div class="card-header">ℹ️ How It Works</div>
-    <ol style="line-height: 2; color: #555;">
-      <li><strong>Apply for Duty Leave:</strong> Fill in the reason, date, and hours</li>
-      <li><strong>Advisor Approval:</strong> Your class advisor reviews your application</li>
-      <li><strong>HOD Approval:</strong> Your department HOD approves the request</li>
-      <li><strong>Host Approval:</strong> The host authority gives final approval</li>
-      <li><strong>Final Status:</strong> All three must approve → Leave Approved ✅</li>
-    </ol>
-  </div>
-
-  <!-- Status Flow Chart -->
-  <div class="card">
-    <div class="card-header">📊 Approval Workflow</div>
-    <div style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 5px;">
-      <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div>
-          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">1</div>
-          <p style="margin-top: 10px; font-weight: 600;">Advisor</p>
-          <p style="font-size: 12px; color: #666;">Class Advisor</p>
-        </div>
-        <div style="font-size: 24px; color: #ccc;">→</div>
-        <div>
-          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">2</div>
-          <p style="margin-top: 10px; font-weight: 600;">HOD</p>
-          <p style="font-size: 12px; color: #666;">Dept Head</p>
-        </div>
-        <div style="font-size: 24px; color: #ccc;">→</div>
-        <div>
-          <div style="background: #667eea; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">3</div>
-          <p style="margin-top: 10px; font-weight: 600;">Host</p>
-          <p style="font-size: 12px; color: #666;">Final Authority</p>
-        </div>
-        <div style="font-size: 24px; color: #ccc;">→</div>
-        <div>
-          <div style="background: #4caf50; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: auto; font-weight: bold;">✓</div>
-          <p style="margin-top: 10px; font-weight: 600;">Approved</p>
-          <p style="font-size: 12px; color: #666;">Final Status</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="page-footer"></div>
 </div>
 
 <script src="/js/script.js"></script>
