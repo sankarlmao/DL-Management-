@@ -4,67 +4,518 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HOD Dashboard - Duty Leave System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --red: #C8181E;
+      --red-dark: #9B1217;
+      --red-xlight: #FEF2F2;
+      --red-light: #FECACA;
+      --red-mid: #FCA5A5;
+      --white: #FFFFFF;
+      --off-white: #FAFAFA;
+      --line: #F0F0F0;
+      --text-main: #1A1A1A;
+      --text-sub: #6B6B6B;
+      --text-muted: #9E9E9E;
+      --green: #16A34A;
+      --green-light: #DCFCE7;
+      --yellow: #CA8A04;
+      --yellow-light: #FEF9C3;
+      --shadow-xs: 0 1px 4px rgba(0,0,0,.06);
+      --shadow-sm: 0 2px 12px rgba(0,0,0,.07);
+      --shadow-md: 0 6px 28px rgba(0,0,0,.09);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--off-white);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red), #FF6B6B);
+    }
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .navbar .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 3px 10px rgba(200,24,30,.35);
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .brand-text strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .brand-text small {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      list-style: none;
+    }
+    .nav-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--line);
+      margin: 0 8px;
+    }
+    .staff-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .staff-badge {
+      background: var(--red-xlight);
+      color: var(--red-dark);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .staff-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .logout-btn {
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid var(--red-light);
+      padding: 8px 18px;
+      border-radius: var(--r-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.845rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .logout-btn:hover {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+      box-shadow: 0 4px 14px rgba(200,24,30,.28);
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .page-header {
+      padding: 44px 0 36px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeUp .4s ease both;
+    }
+    .page-header-left h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .page-header-left h1 .highlight {
+      color: var(--red);
+    }
+    .page-header-left p {
+      margin-top: 8px;
+      font-size: 0.93rem;
+      color: var(--text-sub);
+    }
+    .role-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--red);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: var(--r-md);
+      font-weight: 600;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 16px rgba(200,24,30,.3);
+    }
+    .role-indicator .step {
+      width: 28px;
+      height: 28px;
+      background: var(--white);
+      color: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      transition: box-shadow .22s, transform .22s;
+      animation: fadeUp .4s ease both;
+      margin-bottom: 24px;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+    .card-header-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+    .card-body {
+      padding: 24px;
+    }
+    #pendingForms {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background: var(--off-white);
+    }
+    thead th {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--line);
+    }
+    tbody td {
+      padding: 16px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background: var(--red-xlight);
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-pending {
+      background: var(--yellow-light);
+      color: var(--yellow);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--r-sm);
+      border: none;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-success {
+      background: var(--green);
+      color: var(--white);
+    }
+    .btn-success:hover {
+      background: #15803D;
+      transform: translateY(-1px);
+    }
+    .btn-danger {
+      background: var(--red);
+      color: var(--white);
+    }
+    .btn-danger:hover {
+      background: var(--red-dark);
+      transform: translateY(-1px);
+    }
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 0.78rem;
+    }
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .instructions-list {
+      list-style: none;
+      counter-reset: item;
+    }
+    .instructions-list li {
+      counter-increment: item;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+    .instructions-list li:last-child {
+      border-bottom: none;
+    }
+    .instructions-list li::before {
+      content: counter(item);
+      width: 26px;
+      height: 26px;
+      background: var(--red-xlight);
+      color: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.78rem;
+      flex-shrink: 0;
+    }
+    .workflow-box {
+      background: var(--off-white);
+      padding: 24px;
+      border-radius: var(--r-md);
+    }
+    .workflow-box p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+    .workflow-box .role-highlight {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .workflow-steps {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--white);
+      border-left: 4px solid var(--red);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+    .workflow-steps p {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .workflow-steps .step-num {
+      font-weight: 700;
+      color: var(--red);
+    }
+    .workflow-steps .done {
+      color: var(--text-muted);
+    }
+    .workflow-steps .current {
+      background: var(--red-xlight);
+      padding: 8px 12px;
+      border-radius: var(--r-sm);
+      color: var(--red-dark);
+      font-weight: 600;
+    }
+    .workflow-steps .approved-text {
+      color: var(--green);
+      font-weight: 600;
+    }
+    .spinner {
+      border: 4px solid var(--line);
+      border-top: 4px solid var(--red);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-footer { height: 60px; }
+    @media (max-width: 700px) {
+      .navbar .container { padding: 0 18px; }
+      .container { padding: 0 18px; }
+      .page-header { padding: 28px 0 22px; flex-direction: column; align-items: flex-start; }
+      .brand-text small { display: none; }
+      thead th, tbody td { padding: 10px 8px; font-size: 0.8rem; }
+      .action-btns { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
+
+<div class="top-bar"></div>
 
 <!-- Navbar -->
 <nav class="navbar">
   <div class="container">
-    <div class="navbar-brand">
-      👨‍🏫 <span>Duty Leave System</span>
-    </div>
+    <a class="navbar-brand" href="#">
+      <div class="brand-icon">👨‍🏫</div>
+      <div class="brand-text">
+        <strong>Duty Leave System</strong>
+        <small>Staff Portal</small>
+      </div>
+    </a>
     <ul class="navbar-nav">
-      <li><span id="staffName">HOD</span> | <span id="staffRole">HOD</span></li>
-      <li><span id="userName">Staff</span></li>
-      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+      <li class="staff-info">
+        <span class="staff-badge" id="staffRole">HOD</span>
+        <span class="staff-name" id="staffName">HOD</span>
+      </li>
+      <div class="nav-divider"></div>
+      <li><span id="userName" style="display:none;">Staff</span></li>
+      <li><button class="logout-btn" onclick="logout()">Sign Out</button></li>
     </ul>
   </div>
 </nav>
 
 <div class="container">
-  <div class="welcome-message">
-    <h2>Welcome, <span id="staffName2">HOD</span>! 👋</h2>
-    <p>Review and approve duty leave applications from your department</p>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>Welcome, <span class="highlight" id="staffName2">HOD</span></h1>
+      <p>Review and approve duty leave applications from your department</p>
+    </div>
+    <div class="role-indicator">
+      <span class="step">2</span>
+      Second Level Approval
+    </div>
   </div>
 
+  <!-- Pending Applications -->
   <div class="card">
-    <div class="card-header">📋 Pending Leave Applications</div>
-    
-    <div id="pendingForms">
-      <div class="spinner"></div>
-      <p style="text-align: center; margin-top: 20px; color: #999;">Loading pending applications...</p>
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Pending Leave Applications
+    </div>
+    <div class="card-body">
+      <div id="pendingForms">
+        <div class="spinner"></div>
+        <p style="text-align: center; color: var(--text-muted);">Loading pending applications...</p>
+      </div>
     </div>
   </div>
 
   <!-- Instructions Card -->
   <div class="card">
-    <div class="card-header">📌 How to Approve/Reject</div>
-    <ol style="line-height: 2; color: #555;">
-      <li><strong>Review:</strong> Check the student's leave application and advisor's decision</li>
-      <li><strong>Verify:</strong> Ensure it aligns with departmental policies</li>
-      <li><strong>Action:</strong> Click "Approve" or "Reject" button</li>
-      <li><strong>Remarks:</strong> Optionally add comments (required for rejection)</li>
-      <li><strong>Track:</strong> Once Host approves → Final Status = APPROVED</li>
-    </ol>
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      How to Approve / Reject
+    </div>
+    <div class="card-body">
+      <ol class="instructions-list">
+        <li><strong>Review</strong> the student's leave application and advisor's decision</li>
+        <li><strong>Verify</strong> that it aligns with departmental policies</li>
+        <li><strong>Action</strong> - Click "Approve" or "Reject" button</li>
+        <li><strong>Remarks</strong> - Add comments (required for rejection)</li>
+        <li><strong>Track</strong> - Once Host approves → Final Status = APPROVED</li>
+      </ol>
+    </div>
   </div>
 
   <!-- Workflow Info -->
   <div class="card">
-    <div class="card-header">🔄 Approval Workflow</div>
-    <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-      <p><strong>Your Role:</strong> Head of Department (HOD)</p>
-      <p style="margin-top: 10px; color: #666;">You are the SECOND level of approval. You review after advisor's decision.</p>
-      <div style="margin-top: 20px; padding: 15px; background: white; border-left: 4px solid #667eea; border-radius: 3px;">
-        <p style="margin: 0; color: #333;"><strong>Workflow:</strong></p>
-        <p style="margin: 10px 0; color: #999;">1️⃣ <strong>Advisor</strong> → Already approved</p>
-        <p style="margin: 10px 0; color: #666;">2️⃣ <strong>You (HOD)</strong> → Approve/Reject</p>
-        <p style="margin: 10px 0; color: #666;">3️⃣ <strong>Host</strong> → Final approval</p>
-        <p style="margin: 10px 0; color: #4caf50; font-weight: 600;">✅ All approve → Leave APPROVED</p>
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Approval Workflow
+    </div>
+    <div class="card-body">
+      <div class="workflow-box">
+        <p><span class="role-highlight">Your Role:</span> Head of Department (HOD)</p>
+        <p>You are the <strong>SECOND</strong> level of approval. You review after advisor's decision.</p>
+        <div class="workflow-steps">
+          <p class="done"><span class="step-num">1️⃣</span> Advisor → Already approved</p>
+          <p><span class="step-num">2️⃣</span> <span class="current">You (HOD) → Approve/Reject</span></p>
+          <p><span class="step-num">3️⃣</span> Host → Final approval</p>
+          <p><span class="approved-text">✅ All approve → Leave APPROVED</span></p>
+        </div>
       </div>
     </div>
   </div>
 
+  <div class="page-footer"></div>
 </div>
 
 <script src="/js/script.js"></script>

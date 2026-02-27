@@ -4,70 +4,484 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Applications - Duty Leave System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --red: #C8181E;
+      --red-dark: #9B1217;
+      --red-xlight: #FEF2F2;
+      --red-light: #FECACA;
+      --red-mid: #FCA5A5;
+      --white: #FFFFFF;
+      --off-white: #FAFAFA;
+      --line: #F0F0F0;
+      --text-main: #1A1A1A;
+      --text-sub: #6B6B6B;
+      --text-muted: #9E9E9E;
+      --green: #16A34A;
+      --green-light: #DCFCE7;
+      --yellow: #CA8A04;
+      --yellow-light: #FEF9C3;
+      --shadow-xs: 0 1px 4px rgba(0,0,0,.06);
+      --shadow-sm: 0 2px 12px rgba(0,0,0,.07);
+      --shadow-md: 0 6px 28px rgba(0,0,0,.09);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--off-white);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    .top-bar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red), #FF6B6B);
+    }
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .navbar .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 3px 10px rgba(200,24,30,.35);
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .brand-text strong {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .brand-text small {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      list-style: none;
+    }
+    .navbar-nav li a {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 0.845rem;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: var(--r-sm);
+      transition: all .18s;
+    }
+    .navbar-nav li a:hover, .navbar-nav li a.active {
+      color: var(--red);
+      background: var(--red-xlight);
+    }
+    .nav-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--line);
+      margin: 0 8px;
+    }
+    .navbar-nav #userName {
+      font-size: 0.845rem;
+      font-weight: 600;
+      color: var(--text-main);
+      padding: 0 6px;
+    }
+    .logout-btn {
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid var(--red-light);
+      padding: 8px 18px;
+      border-radius: var(--r-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.845rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .logout-btn:hover {
+      background: var(--red);
+      color: var(--white);
+      border-color: var(--red);
+      box-shadow: 0 4px 14px rgba(200,24,30,.28);
+    }
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .page-header {
+      padding: 44px 0 36px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeUp .4s ease both;
+    }
+    .page-header-left h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .page-header-left h1 .highlight {
+      color: var(--red);
+    }
+    .page-header-left p {
+      margin-top: 8px;
+      font-size: 0.93rem;
+      color: var(--text-sub);
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      transition: box-shadow .22s, transform .22s;
+      animation: fadeUp .4s ease both;
+      margin-bottom: 24px;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+    .card-header-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+    .card-body {
+      padding: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 14px 22px;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 0 4px 16px rgba(200,24,30,.3);
+    }
+    .btn-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,24,30,.38);
+    }
+    #applicationsTable {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background: var(--off-white);
+    }
+    thead th {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--line);
+    }
+    tbody td {
+      padding: 16px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background: var(--red-xlight);
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .badge-pending {
+      background: var(--yellow-light);
+      color: var(--yellow);
+    }
+    .badge-approved {
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .badge-rejected {
+      background: var(--red-xlight);
+      color: var(--red);
+    }
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      border-radius: var(--r-sm);
+    }
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+    }
+    .legend-item {
+      text-align: center;
+      padding: 16px;
+      background: var(--off-white);
+      border-radius: var(--r-md);
+    }
+    .legend-item p {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .flow-info {
+      background: var(--off-white);
+      padding: 24px;
+      border-radius: var(--r-md);
+    }
+    .flow-info h4 {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 16px;
+    }
+    .flow-info ul {
+      list-style: none;
+    }
+    .flow-info ul li {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      border-bottom: 1px solid var(--line);
+    }
+    .flow-info ul li:last-child {
+      border-bottom: none;
+    }
+    .flow-info ul li .check {
+      width: 22px;
+      height: 22px;
+      background: var(--red-xlight);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--red);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .warning-text {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: var(--red-xlight);
+      border-left: 4px solid var(--red);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      color: var(--red-dark);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .spinner {
+      border: 4px solid var(--line);
+      border-top: 4px solid var(--red);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-footer { height: 60px; }
+    @media (max-width: 700px) {
+      .navbar .container { padding: 0 18px; }
+      .navbar-nav li a { display: none; }
+      .nav-divider { display: none; }
+      .container { padding: 0 18px; }
+      .page-header { padding: 28px 0 22px; }
+      .brand-text small { display: none; }
+      thead th, tbody td { padding: 10px 8px; font-size: 0.8rem; }
+    }
+  </style>
 </head>
 <body>
+
+<div class="top-bar"></div>
 
 <!-- Navbar -->
 <nav class="navbar">
   <div class="container">
-    <div class="navbar-brand">
-      🎓 <span>Duty Leave System</span>
-    </div>
+    <a class="navbar-brand" href="/student/dashboard.html">
+      <div class="brand-icon">🎓</div>
+      <div class="brand-text">
+        <strong>Duty Leave System</strong>
+        <small>Student Portal</small>
+      </div>
+    </a>
     <ul class="navbar-nav">
-      <li><a href="/student/dashboard.html">📊 Dashboard</a></li>
-      <li><a href="/student/apply.html">📝 Apply Leave</a></li>
-      <li><a href="/student/view-status.html">📋 My Applications</a></li>
+      <li><a href="/student/dashboard.html">Dashboard</a></li>
+      <li><a href="/student/apply.html">Apply Leave</a></li>
+      <li><a href="/student/view-status.html" class="active">My Applications</a></li>
+      <div class="nav-divider"></div>
       <li><span id="userName">Student</span></li>
-      <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+      <li><button class="logout-btn" onclick="logout()">Sign Out</button></li>
     </ul>
   </div>
 </nav>
 
 <div class="container">
-  <div class="card">
-    <div class="card-header">📋 My Leave Applications</div>
-    
-    <div id="applicationsTable">
-      <div class="spinner"></div>
-      <p style="text-align: center; margin-top: 20px; color: #999;">Loading your applications...</p>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1>My <span class="highlight">Applications</span></h1>
+      <p>Track the status of all your leave applications</p>
     </div>
+    <a href="/student/apply.html" class="btn btn-primary">+ Apply New Leave</a>
+  </div>
 
-    <a href="/student/apply.html" class="btn btn-primary" style="margin-top: 20px;">➕ Apply New Leave</a>
+  <!-- Applications Table -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Leave Applications
+    </div>
+    <div class="card-body">
+      <div id="applicationsTable">
+        <div class="spinner"></div>
+        <p style="text-align: center; color: var(--text-muted);">Loading your applications...</p>
+      </div>
+    </div>
   </div>
 
   <!-- Legend Card -->
   <div class="card">
-    <div class="card-header">🔑 Status Legend</div>
-    <div class="grid grid-3">
-      <div>
-        <span class="badge badge-pending">● Pending</span>
-        <p style="margin-top: 10px; font-size: 12px; color: #666;">Waiting for approval</p>
-      </div>
-      <div>
-        <span class="badge badge-approved">● Approved</span>
-        <p style="margin-top: 10px; font-size: 12px; color: #666;">Approved by authority</p>
-      </div>
-      <div>
-        <span class="badge badge-rejected">● Rejected</span>
-        <p style="margin-top: 10px; font-size: 12px; color: #666;">Rejected with remarks</p>
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Status Legend
+    </div>
+    <div class="card-body">
+      <div class="legend-grid">
+        <div class="legend-item">
+          <span class="badge badge-pending">● Pending</span>
+          <p>Waiting for approval</p>
+        </div>
+        <div class="legend-item">
+          <span class="badge badge-approved">● Approved</span>
+          <p>Approved by authority</p>
+        </div>
+        <div class="legend-item">
+          <span class="badge badge-rejected">● Rejected</span>
+          <p>Rejected with remarks</p>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Approval Process Card -->
   <div class="card">
-    <div class="card-header">📊 Understanding the Approval Flow</div>
-    <div style="background: #f9f9f9; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
-      <h4>For your leave to be APPROVED:</h4>
-      <ul style="line-height: 2; color: #555; margin: 15px 0;">
-        <li>✓ <strong>Advisor</strong> must approve</li>
-        <li>✓ <strong>HOD</strong> must approve</li>
-        <li>✓ <strong>Host</strong> must approve</li>
-      </ul>
-      <p style="color: #f44336; font-weight: 600;">⚠️ If ANY one rejects → Leave is REJECTED</p>
+    <div class="card-header">
+      <div class="card-header-dot"></div>
+      Understanding the Approval Flow
+    </div>
+    <div class="card-body">
+      <div class="flow-info">
+        <h4>For your leave to be APPROVED:</h4>
+        <ul>
+          <li><span class="check">✓</span> <strong>Advisor</strong> must approve</li>
+          <li><span class="check">✓</span> <strong>HOD</strong> must approve</li>
+          <li><span class="check">✓</span> <strong>Host</strong> must approve</li>
+        </ul>
+        <div class="warning-text">⚠️ If ANY one rejects → Leave is REJECTED</div>
+      </div>
     </div>
   </div>
+
+  <div class="page-footer"></div>
 </div>
 
 <script src="/js/script.js"></script>
